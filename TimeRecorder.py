@@ -23,7 +23,7 @@ class TimeRecorder:
         self.pause_button = tk.Button(frame, text="Pause", command=self.pause, width=10)
         self.pause_button.grid(row=0, column=1, padx=5)
 
-        self.stop_button = tk.Button(frame, text="Stop", command=self.stop, width=10)
+        self.stop_button = tk.Button(frame, text="Save", command=self.stop, width=10)
         self.stop_button.grid(row=0, column=2, padx=5)
 
         self.reload_button = tk.Button(frame, text="Reload CSV", command=self.reload_csv, width=10)
@@ -83,11 +83,12 @@ class TimeRecorder:
     
     def save_to_csv(self, file_path, time_spent, description):
         file_is_new = not Path(file_path).exists() or Path(file_path).stat().st_size == 0
+        formatted_time = str(time_spent).split('.')[0]
         with open(file_path, mode='a', newline='') as file:
             writer = csv.writer(file)
             if file_is_new:
                 writer.writerow(["Time Spent", "Description"])  # Writing header
-            writer.writerow([str(time_spent), description])
+            writer.writerow([formatted_time, description])
         print("Saved to CSV")
     
     def reload_csv(self):
